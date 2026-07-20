@@ -10,7 +10,7 @@
 using namespace std::filesystem;
 
 #define MAX_LOADSTRING 100
-#define VERSION "1.2.0"
+#define VERSION "1.2.2-community.1"
 
 HINSTANCE hInst;
 HWND hWnd;

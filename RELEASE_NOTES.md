@@ -1,6 +1,6 @@
-# ToolKitV Community v1.2.1-community.1
+# ToolKitV Community v1.2.2-community.1
 
-Initial community-maintained release based on UmbrellaRE/ToolKitV v1.2.0.
+Updater-enabled community release based on UmbrellaRE/ToolKitV v1.2.0.
 
 ## Changes
 
@@ -19,7 +19,7 @@ Initial community-maintained release based on UmbrellaRE/ToolKitV v1.2.0.
 
 ## Build Artifacts
 
-- `ToolKitV-Community-v1.2.1-community.1-win-x64.zip`
+- `ToolKitV-Community-v1.2.2-community.1-win-x64.zip`
 - `ToolKitV-Community-win-x64.zip`
 
 ## License
