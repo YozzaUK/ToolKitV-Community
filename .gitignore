@@ -134,7 +134,7 @@ $RECYCLE.BIN/
 
 _NCrunch*
 
-# Local build/restore state used by Codex builds
+# Local build/restore state
 .appdata/
 .dotnet_home/
 .localappdata/
