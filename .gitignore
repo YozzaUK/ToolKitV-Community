@@ -133,3 +133,12 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+
+# Local build/restore state used by Codex builds
+.appdata/
+.dotnet_home/
+.localappdata/
+.nuget_packages/
+
+# Release packages
+release_artifacts/

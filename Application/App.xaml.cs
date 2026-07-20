@@ -11,21 +11,7 @@ namespace ToolKitV
         {
             Mutex = new Mutex(true, ResourceAssembly.GetName().Name);
 
-            bool canStart = false;
-
-#if DEBUG
-            canStart = true;
-#else
-            for (int i = 0; i != e.Args.Length; ++i)
-            {
-                if (e.Args[i] == "-startedFromUpdater")
-                {
-                    canStart = true;
-                    break;
-                }
-            }
-#endif
-            if (!Mutex.WaitOne(0, false) || !canStart)
+            if (!Mutex.WaitOne(0, false))
             {
                 Current.Shutdown();
                 return;

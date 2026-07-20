@@ -31,32 +31,32 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -99,12 +99,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Updater/Dependencies/libzip/include;$(SolutionDir)Updater/Dependencies/openssl/include;$(SolutionDir)Updater/Dependencies/tinyxml2/include;$(SolutionDir)Updater/Dependencies/curl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies/libzip/include;$(ProjectDir)Dependencies/openssl/include;$(ProjectDir)Dependencies/tinyxml2/include;$(ProjectDir)Dependencies/curl/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>zip.lib;bz2.lib;zlib.lib;libcrypto.lib;tinyxml2.lib;libcurl.lib;Normaliz.lib;Ws2_32.lib;Wldap32.lib;Crypt32.lib;advapi32.lib;User32.lib;Gdi32.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Updater\Dependencies\tinyxml2\lib;$(SolutionDir)Updater\Dependencies\openssl\lib;$(SolutionDir)Updater\Dependencies\libzip\lib;$(SolutionDir)Updater\Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\tinyxml2\lib;$(ProjectDir)Dependencies\openssl\lib;$(ProjectDir)Dependencies\libzip\lib;$(ProjectDir)Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -116,12 +116,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Updater/Dependencies/libzip/include;$(SolutionDir)Updater/Dependencies/openssl/include;$(SolutionDir)Updater/Dependencies/tinyxml2/include;$(SolutionDir)Updater/Dependencies/curl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies/libzip/include;$(ProjectDir)Dependencies/openssl/include;$(ProjectDir)Dependencies/tinyxml2/include;$(ProjectDir)Dependencies/curl/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>zip.lib;bz2.lib;zlib.lib;libcrypto.lib;tinyxml2.lib;libcurl.lib;Normaliz.lib;Ws2_32.lib;Wldap32.lib;Crypt32.lib;advapi32.lib;User32.lib;Gdi32.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Updater\Dependencies\tinyxml2\lib;$(SolutionDir)Updater\Dependencies\openssl\lib;$(SolutionDir)Updater\Dependencies\libzip\lib;$(SolutionDir)Updater\Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\tinyxml2\lib;$(ProjectDir)Dependencies\openssl\lib;$(ProjectDir)Dependencies\libzip\lib;$(ProjectDir)Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -133,12 +133,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Updater/Dependencies/libzip/include;$(SolutionDir)Updater/Dependencies/openssl/include;$(SolutionDir)Updater/Dependencies/tinyxml2/include;$(SolutionDir)Updater/Dependencies/curl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies/libzip/include;$(ProjectDir)Dependencies/openssl/include;$(ProjectDir)Dependencies/tinyxml2/include;$(ProjectDir)Dependencies/curl/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>zip.lib;bz2.lib;zlib.lib;libcrypto.lib;tinyxml2.lib;libcurl.lib;Normaliz.lib;Ws2_32.lib;Wldap32.lib;Crypt32.lib;advapi32.lib;User32.lib;Gdi32.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Updater\Dependencies\tinyxml2\lib;$(SolutionDir)Updater\Dependencies\openssl\lib;$(SolutionDir)Updater\Dependencies\libzip\lib;$(SolutionDir)Updater\Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\tinyxml2\lib;$(ProjectDir)Dependencies\openssl\lib;$(ProjectDir)Dependencies\libzip\lib;$(ProjectDir)Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -150,12 +150,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)Updater/Dependencies/libzip/include;$(SolutionDir)Updater/Dependencies/openssl/include;$(SolutionDir)Updater/Dependencies/tinyxml2/include;$(SolutionDir)Updater/Dependencies/curl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies/libzip/include;$(ProjectDir)Dependencies/openssl/include;$(ProjectDir)Dependencies/tinyxml2/include;$(ProjectDir)Dependencies/curl/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>zip.lib;bz2.lib;zlib.lib;libcrypto.lib;tinyxml2.lib;libcurl.lib;Normaliz.lib;Ws2_32.lib;Wldap32.lib;Crypt32.lib;advapi32.lib;User32.lib;Gdi32.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Updater\Dependencies\tinyxml2\lib;$(SolutionDir)Updater\Dependencies\openssl\lib;$(SolutionDir)Updater\Dependencies\libzip\lib;$(SolutionDir)Updater\Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\tinyxml2\lib;$(ProjectDir)Dependencies\openssl\lib;$(ProjectDir)Dependencies\libzip\lib;$(ProjectDir)Dependencies\curl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>

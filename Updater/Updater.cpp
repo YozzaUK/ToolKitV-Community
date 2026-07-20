@@ -366,7 +366,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     switch (message)
     {
         case WM_CREATE:
-            SetClassLong(hWnd, GCLP_HBRBACKGROUND, (LONG)CreateSolidBrush(RGB(28, 29, 33)));
+            SetClassLongPtr(hWnd, GCLP_HBRBACKGROUND, (LONG_PTR)CreateSolidBrush(RGB(28, 29, 33)));
             break;
         case WM_PAINT:
             {
