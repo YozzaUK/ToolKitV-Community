@@ -187,6 +187,11 @@ size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream) {
 
 int ProgressFunc(void* ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
 {
+    if (TotalToDownload <= 0)
+    {
+        return 0;
+    }
+
     int totaldotz = 210;
     double fractiondownloaded = NowDownloaded / TotalToDownload;
     int newProgress = (int)round(fractiondownloaded * totaldotz);
@@ -205,10 +210,10 @@ int ProgressFunc(void* ptr, double TotalToDownload, double NowDownloaded, double
     return 0;
 }
 
-void DownloadFile(std::wstring path, std::string url, std::wstring name)
+bool DownloadFile(std::wstring path, std::string url, std::wstring name)
 {
     CURL* curl;
-    FILE* fp;
+    FILE* fp = nullptr;
     CURLcode res;
     curl = curl_easy_init();
     if (curl) 
@@ -216,7 +221,14 @@ void DownloadFile(std::wstring path, std::string url, std::wstring name)
         currentFileName = name;
         SetWindowData(L"Downloading " + currentFileName, 0);
         _wfopen_s(&fp, path.c_str(), L"wb");
+        if (fp == nullptr)
+        {
+            curl_easy_cleanup(curl);
+            return false;
+        }
+
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, "ToolKitV-Community-Updater/1.0");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
         // Internal CURL progressmeter must be disabled if we provide our own callback
@@ -228,7 +240,11 @@ void DownloadFile(std::wstring path, std::string url, std::wstring name)
         /* always cleanup */
         curl_easy_cleanup(curl);
         fclose(fp);
+
+        return res == CURLE_OK;
     }
+
+    return false;
 }
 
 // write the data into a `std::string` rather than to a file.
@@ -266,6 +282,7 @@ std::string GetUrl(std::string const& url)
     if (auto curl = curl_uptr(curl_easy_init()))
     {
         curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_USERAGENT, "ToolKitV-Community-Updater/1.0");
         curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, WriteDataAnother);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &data);
@@ -282,12 +299,14 @@ std::string GetUrl(std::string const& url)
 bool IsUrlValid(std::string const& url)
 {
     CURL* curl;
-    CURLcode response;
+    CURLcode response = CURLE_FAILED_INIT;
 
     curl = curl_easy_init();
 
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, "ToolKitV-Community-Updater/1.0");
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
         /* don't write output to stdout */
         curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
@@ -311,6 +330,10 @@ bool UnpackArchive(std::wstring path, std::wstring zipName)
     std::string zipPath = WideStringToString(path + zipName);
     std::string strPath = WideStringToString(path);
     zip* z = zip_open(zipPath.c_str(), 0, &err);
+    if (z == nullptr)
+    {
+        return false;
+    }
 
     int numEntries = zip_get_num_entries(z, 0);
     int totaldotz = 210;
@@ -327,12 +350,26 @@ bool UnpackArchive(std::wstring path, std::wstring zipName)
             int strLen = strlen(sb.name);
             if (sb.name[strLen - 1] == '/')
             {
-                create_directory(strPath + "\\" + sb.name);
+                create_directories(strPath + "\\" + sb.name);
             }
             else
             {
+                std::filesystem::path outputPath = std::filesystem::path(strPath) / sb.name;
+                create_directories(outputPath.parent_path());
+
                 zf = zip_fopen_index(z, i, 0);
-                _sopen_s(&fd, (strPath + "\\" + std::string(sb.name)).c_str(), O_RDWR | O_TRUNC | O_CREAT | O_BINARY, _SH_DENYNO, _S_IREAD | _S_IWRITE);
+                if (zf == nullptr)
+                {
+                    zip_close(z);
+                    return false;
+                }
+
+                if (_sopen_s(&fd, outputPath.string().c_str(), O_RDWR | O_TRUNC | O_CREAT | O_BINARY, _SH_DENYNO, _S_IREAD | _S_IWRITE) != 0)
+                {
+                    zip_fclose(zf);
+                    zip_close(z);
+                    return false;
+                }
 
                 int sum = 0;
                 byte* buf = new byte[100];

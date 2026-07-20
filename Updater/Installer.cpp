@@ -43,26 +43,26 @@ static void CreateUninstallEntryIfNeeded(std::wstring filename)
 {
     auto setUninstallString = [](const std::wstring& name, const std::wstring& value)
     {
-        RegSetKeyValueW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\UmbrellaRE_" PRODUCT_NAME, name.c_str(), REG_SZ, value.c_str(), (value.length() * 2) + 2);
+        RegSetKeyValueW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\ToolKitVCommunity_" PRODUCT_NAME, name.c_str(), REG_SZ, value.c_str(), (value.length() * 2) + 2);
     };
 
     auto setUninstallDword = [](const std::wstring& name, DWORD value)
     {
-        RegSetKeyValueW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\UmbrellaRE_" PRODUCT_NAME, name.c_str(), REG_DWORD, &value, sizeof(value));
+        RegSetKeyValueW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\ToolKitVCommunity_" PRODUCT_NAME, name.c_str(), REG_DWORD, &value, sizeof(value));
     };
 
     setUninstallString(L"DisplayName", PRODUCT_NAME);
     setUninstallString(L"DisplayIcon", filename + std::wstring(L",0"));
-    setUninstallString(L"HelpLink", L"https://umbrella.re/");
+    setUninstallString(L"HelpLink", L"" COMMUNITY_REPOSITORY_URL);
     setUninstallString(L"InstallLocation", GetRootPath());
-    setUninstallString(L"Publisher", L"Umbrella.re");
+    setUninstallString(L"Publisher", L"ToolKitV Community");
     setUninstallString(L"UninstallString", filename + std::wstring(L" -uninstall app"));
-    setUninstallString(L"URLInfoAbout", L"https://umbrella.re/");
+    setUninstallString(L"URLInfoAbout", L"" COMMUNITY_REPOSITORY_URL);
     setUninstallDword(L"NoModify", 1);
     setUninstallDword(L"NoRepair", 1);
 }
 
-bool PerformInstallation(bool updateServerAvaliable)
+bool PerformInstallation()
 {
 	auto rootPath = GetRootPath();
 
@@ -78,19 +78,19 @@ bool PerformInstallation(bool updateServerAvaliable)
 		CreateDirectory(installPath.c_str(), nullptr);
 	}
 
-	std::string downloadUrl = API_URL DOWNLOAD;
-	if (!updateServerAvaliable)
-	{
-		downloadUrl = BACKUP_DOWNLOAD_URL;
-	}
-
 	SetWindowData(L"Downloading app...", 0);
 
-	DownloadFile(installPath + L"\\ToolKitV.zip", downloadUrl, L"ToolKitV.zip");
+	if (!DownloadFile(installPath + L"\\ToolKitV.zip", COMMUNITY_RELEASE_DOWNLOAD_URL, L"ToolKitV.zip"))
+	{
+		return false;
+	}
 
 	SetWindowData(L"Unpacking app...", 0);
 
-	UnpackArchive(installPath, L"\\ToolKitV.zip");
+	if (!UnpackArchive(installPath, L"\\ToolKitV.zip"))
+	{
+		return false;
+	}
 
 	DeleteFile((installPath + L"\\ToolKitV.zip").c_str());
 
@@ -116,7 +116,7 @@ bool PerformInstallation(bool updateServerAvaliable)
 		if (SUCCEEDED(hr))
 		{
 			shellLink->SetPath(targetExePath.c_str());
-			shellLink->SetDescription(PRODUCT_NAME L" is a utility from Umbrella.re team");
+			shellLink->SetDescription(PRODUCT_NAME L" Community is an unofficial maintained ToolKitV fork");
 			shellLink->SetIconLocation(targetExePath.c_str(), 0);
 
 			WRL::ComPtr<IPersistFile> persist;
@@ -192,7 +192,7 @@ bool Uninstall(const wchar_t* directory)
 		MessageBox(NULL, L"The uninstall operation was canceled. Some files may still remain. Please remove these files manually.", L"Umbrella.re", MB_OK | MB_ICONSTOP);
 	}
 
-	RegDeleteKey(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\UmbrellaRE_" PRODUCT_NAME);
+	RegDeleteKey(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\ToolKitVCommunity_" PRODUCT_NAME);
 
 	return true;
 }

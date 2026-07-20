@@ -14,10 +14,13 @@ Initial community-maintained release based on UmbrellaRE/ToolKitV v1.2.0.
 - Removed an unused MFC requirement from the updater project.
 - Fixed updater dependency include/library paths for direct project builds.
 - Fixed a 64-bit WinAPI pointer cast warning in the updater.
+- Reworked the updater to install/update from this repository's latest GitHub
+  Release asset instead of the old Umbrella API/CDN.
 
-## Build Artifact
+## Build Artifacts
 
 - `ToolKitV-Community-v1.2.1-community.1-win-x64.zip`
+- `ToolKitV-Community-win-x64.zip`
 
 ## License
 

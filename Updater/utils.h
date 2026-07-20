@@ -16,7 +16,7 @@ bool DirOrFileExists(const std::wstring& dirName_in);
 std::string WideStringToString(const std::wstring& wide_string);
 std::vector<std::string> Split(const std::string& s, char delim);
 std::string GetFileHash(std::wstring path);
-void DownloadFile(std::wstring path, std::string url, std::wstring name);
+bool DownloadFile(std::wstring path, std::string url, std::wstring name);
 bool IsUrlValid(std::string const& url);
 std::string GetUrl(std::string const& url);
 bool UnpackArchive(std::wstring path, std::wstring zipName);

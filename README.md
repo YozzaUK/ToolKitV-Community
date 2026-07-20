@@ -53,6 +53,8 @@ Build the native updater with Visual Studio 2019 Build Tools:
 - Removed an unused MFC requirement from the updater project.
 - Fixed updater dependency paths for direct project builds.
 - Fixed a 64-bit WinAPI pointer cast in the updater window setup.
+- Reworked the updater to download from this repository's latest GitHub
+  Release instead of the old Umbrella API/CDN.
 
 ## License
 

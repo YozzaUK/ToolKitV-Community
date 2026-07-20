@@ -109,6 +109,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 
+#if 0
 void DownloadCacheFile(std::wstring appPath, std::string stringFileName)
 {
     std::wstring fileName = std::wstring(stringFileName.begin(), stringFileName.end());
@@ -231,13 +232,14 @@ bool IsUpdaterNeedToUpdate(const tinyxml2::XMLDocument& doc)
 
     return false;
 }
+#endif
 
 void InstallOrProceed() {
     std::wstring rootPath = GetRootPath();
 
     if (rootPath.empty())
     {
-        MessageBox(NULL, L"Can't find or create root folder in AppData.", L"Umbrella.re", MB_OK | MB_ICONSTOP);
+        MessageBox(NULL, L"Can't find or create root folder in AppData.", L"ToolKitV Community", MB_OK | MB_ICONSTOP);
 
         isWindowClosing = true;
 
@@ -251,10 +253,6 @@ void InstallOrProceed() {
     {
         DeleteFile((rootPath + L"\\" PRODUCT_NAME L"_old.exe").c_str());
     }
-
-    SetWindowData(L"Checking update server...", 0);
-
-    bool updateServerAvaliable = IsUrlValid(API_URL GET_CACHES);
 
     if (DirOrFileExists(appPath) && DirOrFileExists(appPath + exeName) && DirOrFileExists(rootPath + exeName))
     {
@@ -278,47 +276,46 @@ void InstallOrProceed() {
 
             return;
         }
-
-        if (updateServerAvaliable) {
-            std::string data = GetUrl(API_URL GET_CACHES);
-
-            tinyxml2::XMLDocument doc;
-            doc.Parse(data.c_str());
-
-            if (IsUpdaterNeedToUpdate(doc)) {
-                return;
-            }
-
-            SetWindowData(L"Checking updates...", 0);
-
-            CheckFilesToUpdate(doc, appPath + L"\\");
-        }
-
-        SetWindowData(L"Starting app...", 100);
-
-        STARTUPINFOW si = { sizeof(si) };
-        PROCESS_INFORMATION pi;
-        CreateProcessW(
-            NULL,
-            (LPWSTR)(appPath + exeName + L" -startedFromUpdater").c_str(),
-            NULL,
-            NULL,
-            FALSE,
-            0, NULL,
-            (LPWSTR)appPath.c_str(),
-            &si,
-            &pi
-        );
-
-        isWindowClosing = true;
     }
-    else
+
+    SetWindowData(L"Checking GitHub Releases...", 0);
+
+    bool releaseAvailable = IsUrlValid(COMMUNITY_RELEASE_DOWNLOAD_URL);
+    bool appInstalled = DirOrFileExists(appPath) && DirOrFileExists(appPath + exeName);
+
+    if (releaseAvailable)
     {
-        if (PerformInstallation(updateServerAvaliable))
+        if (!PerformInstallation())
         {
-            InstallOrProceed();
+            MessageBox(NULL, L"Failed to install or update ToolKitV Community.", L"ToolKitV Community", MB_OK | MB_ICONSTOP);
+            isWindowClosing = true;
+            return;
         }
     }
+    else if (!appInstalled)
+    {
+        MessageBox(NULL, L"Can't reach the ToolKitV Community GitHub release download.", L"ToolKitV Community", MB_OK | MB_ICONSTOP);
+        isWindowClosing = true;
+        return;
+    }
+
+    SetWindowData(L"Starting app...", 100);
+
+    STARTUPINFOW si = { sizeof(si) };
+    PROCESS_INFORMATION pi;
+    CreateProcessW(
+        NULL,
+        (LPWSTR)(appPath + exeName).c_str(),
+        NULL,
+        NULL,
+        FALSE,
+        0, NULL,
+        (LPWSTR)appPath.c_str(),
+        &si,
+        &pi
+    );
+
+    isWindowClosing = true;
 }
 
 void SetWindowData(std::wstring text, int progress)
